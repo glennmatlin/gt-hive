@@ -129,13 +129,16 @@ version only after verifying with `module avail cuda`.
 Three storage tiers, each with a different Phoenix policy:
 
 - **Home (`~`):** small persistent quota; for code, configs, small data.
+- **Project storage (`/storage/project/p-<pi>-<n>/<username>`):** persistent,
+  no per-user file limit; the home for data artifacts and long-term datasets.
 - **Network scratch (`~/scratch`):** 15 TB / 1M-file cap, 60-day cleanup
-  (per `Storage Guide.md`). Run inputs/outputs that must outlive one job.
+  (per `Storage Guide.md`). For environments only (venv, uv cache), not data.
 - **Job-local scratch (`${TMPDIR}`):** per-job NVMe, fast, freed at job exit.
 
-Pattern: stage hot data into `${TMPDIR}` for I/O-heavy steps, copy results
-back to `~/scratch` before the job ends so they survive. Request node-local
-space with `--tmp=`:
+Pattern: stage hot data into `${TMPDIR}` for I/O-heavy steps, copy result
+data artifacts to project storage before the job ends so they survive. Do
+not write data to `~/scratch` (environments only) or home. Request
+node-local space with `--tmp=`:
 
 ```bash
 #!/bin/bash
@@ -146,13 +149,14 @@ space with `--tmp=`:
 #SBATCH --tmp=200G
 #SBATCH -t 02:00:00
 
-cp ~/scratch/<input_file> "${TMPDIR}/"
+PROJECT=/storage/project/p-<pi>-<n>/<username>
+cp "${PROJECT}/<input_file>" "${TMPDIR}/"
 srun <app> "${TMPDIR}/<input_file>" > "${TMPDIR}/result.out"
-cp "${TMPDIR}/result.out" ~/scratch/
+cp "${TMPDIR}/result.out" "${PROJECT}/"
 ```
 
-Plan against the 60-day cleanup on `~/scratch`: anything that must persist
-longer belongs on a project storage tier, not scratch.
+Persistent data belongs on project storage, not scratch. The canonical
+storage rule lives in the global `agents/AGENTS.md`.
 
 ## Globus transfers
 

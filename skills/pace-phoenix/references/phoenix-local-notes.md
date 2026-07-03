@@ -16,8 +16,8 @@ Three distinct storage tiers, each with its own policy
   in home; many tools write into `~` and will fail when the quota fills.
 - **Network scratch (`~/scratch`):** 15 TB quota, 1M file/dir cap,
   **not backed up**. Files older than 60 days are deleted automatically each
-  month. Use for inputs/outputs that must outlive a single job but do not
-  need long-term retention.
+  month. For environments only (venv, uv cache) — not for data artifacts,
+  which go to project storage (see below and the global `agents/AGENTS.md`).
 - **Project storage:** group-shared directory funded per PI; symlinks
   appear in home as `p-<pi-username>-<n>` or `r-<pi-username>-<n>`. New
   accounts since April 2025 use the `r-...` form pointing at

@@ -141,19 +141,25 @@ reservation pool) are a known gap (see safety rules below).
 
 - **Home (`~`):** 30 GB on NetApp; daily snapshots; 1-year inactivity
   cleanup. For code, configs, small data only.
+- **Shared project volume (`/storage/ice-shared/cs7634/staff/TDA`):** the
+  destination for persistent data artifacts and results. This is where
+  keepers go.
 - **Scratch (`~/scratch`):** 300 GB on Lustre; **no backup**; 120-day
-  cleanup at semester end; 1M-file cap. Suitable for course datasets and
-  intermediate results that do not need to outlive the term.
+  cleanup at semester end; 1M-file cap. Use for **environments only**
+  (venv, uv cache) — not for data artifacts you need to keep.
 - **Job-local (`${TMPDIR}`):** per-job NVMe or SAS; request with
   `-C localSAS` or `-C localNVMe`; freed at job exit. Fastest tier for
-  I/O-heavy steps.
+  I/O-heavy in-job staging.
 - **Course shared directories:** VAST, 2 TB default; instructor request
   workflow (the procedure itself is a known gap — point users at
   `pace-support@oit.gatech.edu`).
 
-Stage hot data into `${TMPDIR}` for I/O-heavy steps; copy results back to
-`~/scratch` before the job ends. Note that scratch is wiped at semester
-end — do not leave anything you cannot reproduce.
+Stage hot data into `${TMPDIR}` for I/O-heavy steps; copy results and data
+artifacts to the shared project volume
+(`/storage/ice-shared/cs7634/staff/TDA`) before the job ends. Do **not**
+write data to home (`~`) or scratch (`~/scratch`) — scratch is for
+environments only. The canonical storage rule lives in the global
+`agents/AGENTS.md`.
 
 ## ICE-specific safety rules
 
@@ -184,13 +190,15 @@ end — do not leave anything you cannot reproduce.
   Makerspace use. If a job pends on those, the access path is
   institution-specific and not fully documented in repo (known gap — point
   users to PACE support rather than fabricate steps).
-- **Scratch is wiped at semester end** (120-day cleanup). Treat
-  `~/scratch` as ephemeral; copy keepers to home or off-cluster storage.
+- **Scratch is wiped at semester end** (120-day cleanup) and is for
+  environments only. Never write data artifacts to scratch or home; copy
+  keepers to the shared project volume
+  (`/storage/ice-shared/cs7634/staff/TDA`). See the global `agents/AGENTS.md`
+  for the canonical storage rule.
 
-> Institutional GT AI guidance is tracked in `references/gt-ai-policy.md`,
-> not this section. The shared file lives in the `pace-phoenix` overlay
-> (the policy is institution-wide and identical for both clusters); the
-> `pace-ice` `references/` directory may carry a small redirect or copy.
+> Institutional GT AI guidance is tracked separately, not in this section.
+> The policy is institution-wide and identical for both clusters, so it
+> lives in a single file: `pace-phoenix/references/gt-ai-policy.md`.
 
 ## Phoenix vs ICE
 
@@ -225,16 +233,14 @@ overlay. If it is coursework, grading, or workshop, stay here.
 
 ## Resource files
 
-The shared institutional AI guidance lives in the `pace-phoenix` overlay
-(`pace-phoenix/references/gt-ai-policy.md`) — the same policy applies to
-both clusters, so the file is not duplicated. The `pace-ice` `references/`
-directory may include a small redirect or copy.
+The shared institutional AI guidance lives at
+`pace-phoenix/references/gt-ai-policy.md` — the same policy applies to both
+clusters, so the file is not duplicated.
 
 - `references/workflows.md` — ICE-specific job templates (CPU, GPU,
-  grading QOS, OnDemand) (later P2 task).
+  grading QOS, OnDemand).
 - `references/ice-local-notes.md` — non-routing local facts (semester
-  cleanup, scratch caveats, AI Makerspace reservation notes) (later P2
-  task).
+  cleanup, scratch caveats, AI Makerspace reservation notes).
 - `references/pace-docs-map.md` — routing map into the authoritative ICE
   docs (`Getting Started with ICE`, `Log on to ICE`, `ICE Cluster
-  Resources`, `Storage on ICE`, `Using Slurm on ICE`) (later P2 task).
+  Resources`, `Storage on ICE`, `Using Slurm on ICE`).

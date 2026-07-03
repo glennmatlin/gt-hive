@@ -17,8 +17,9 @@ Three distinct storage tiers, each with its own ICE policy
 - **Scratch (`~/scratch`):** 300 GB on a Lustre parallel filesystem with
   InfiniBand; **not backed up**; **120-day cleanup at semester end** —
   any file untouched for 120 days is removed. **1M file/dir cap.**
-  Suitable for course datasets and intermediate results that do not need
-  to outlive the term.
+  For environments only (venv, uv cache) — not for data artifacts. Data
+  and results go to the shared project volume
+  (`/storage/ice-shared/cs7634/staff/TDA`); see the global `agents/AGENTS.md`.
 - **Job-local (`${TMPDIR}`):** per-job NVMe or SAS local disk; freed at
   job exit. Reserve with `#SBATCH --tmp=<size>` and pin the family with
   `-C localNVMe` or `-C localSAS` when needed.

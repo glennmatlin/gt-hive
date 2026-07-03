@@ -169,9 +169,11 @@ silently guessed.
 ## Local-disk staging template
 
 Stage hot data into job-local NVMe (or SAS) for I/O-heavy steps; copy
-results to `~/scratch` before the job ends. ICE compute nodes have either
-NVMe or SAS local disk; pin the type with `-C localNVMe` or `-C localSAS`
-when needed.
+result data artifacts to the shared project volume
+(`/storage/ice-shared/cs7634/staff/TDA`) before the job ends. Do not write
+data artifacts to `~/scratch` (environments only) or home. ICE compute
+nodes have either NVMe or SAS local disk; pin the type with `-C localNVMe`
+or `-C localSAS` when needed.
 
 ```bash
 #!/bin/bash
@@ -184,14 +186,14 @@ when needed.
 #SBATCH -t 02:00:00
 #SBATCH -o logs/%x_%j.out
 
-cp ~/scratch/<input_file> "${TMPDIR}/"
+PROJECT=/storage/ice-shared/cs7634/staff/TDA
+cp "${PROJECT}/<input_file>" "${TMPDIR}/"
 srun <app> "${TMPDIR}/<input_file>" > "${TMPDIR}/result.out"
-cp "${TMPDIR}/result.out" ~/scratch/
+cp "${TMPDIR}/result.out" "${PROJECT}/"
 ```
 
-Plan against the **120-day, semester-end cleanup** on `~/scratch`: copy
-keepers off scratch (to home, course shared dir, or off-cluster) before
-term end.
+Persistent data artifacts belong on the shared project volume, not scratch.
+The canonical storage rule lives in the global `agents/AGENTS.md`.
 
 ## Globus transfers
 

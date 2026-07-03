@@ -93,15 +93,20 @@ Default per-GPU CPU ratios are documented in
 ### Storage tiers
 
 - **Home (`~`):** small, persistent, low quota — for code, configs, and small
-  data only.
+  data only. Not for data artifacts.
+- **Project storage (`/storage/project/p-<pi>-<n>/<username>`):** group-shared,
+  funded per PI, no per-user file limit. The right home for persistent data
+  artifacts and long-term datasets (per `references/phoenix-local-notes.md`).
 - **Network scratch (`~/scratch`):** 60-day cleanup; 15 TB / 1M-file cap (per
-  `Storage Guide.md`). Suitable for run inputs/outputs that need to outlive
-  one job but not be retained long-term.
+  `Storage Guide.md`). Use for **environments only** (venv, uv cache) — not
+  for data artifacts you need to keep.
 - **Job-local scratch (`${TMPDIR}`):** per-job NVMe; fast; freed at job exit.
   Documented in `Using Slurm on Phoenix.md` as the per-node temporary path.
 
-Stage hot data into `${TMPDIR}` for I/O-heavy steps; copy results back to
-`~/scratch` before the job ends.
+Stage hot data into `${TMPDIR}` for I/O-heavy steps; copy results and data
+artifacts to project storage before the job ends. Do **not** write data to
+home (`~`) or scratch — scratch is for environments only. The canonical
+storage rule lives in the global `agents/AGENTS.md`.
 
 ### Data transfer
 
@@ -192,13 +197,13 @@ that matches their priority and fault tolerance.
 
 ## Resource files
 
-- `references/cost-model.md` — billing model and rate-study URL (Task 9).
+- `references/cost-model.md` — billing model and rate-study URL.
 - `references/workflows.md` — Phoenix-specific job templates (CPU, GPU,
-  array, I/O staging) (Task 10).
+  array, I/O staging).
 - `references/pace-docs-map.md` — routing map into authoritative PACE docs,
-  Phoenix-only rows (Task 11).
-- `references/doc-index.md` — full Phoenix doc index (Task 12).
-- `references/phoenix-local-notes.md` — non-routing local facts (Task 13).
+  Phoenix-only rows.
+- `references/doc-index.md` — full Phoenix doc index.
+- `references/phoenix-local-notes.md` — non-routing local facts.
 - `references/gt-ai-policy.md` — general GT institutional AI guidance
   (relocated from workshop content; kept separate from Phoenix specifics so
   it can be cited or updated independently).
