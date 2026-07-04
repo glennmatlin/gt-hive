@@ -1,6 +1,6 @@
 ---
 name: pace-phoenix
-description: Use this skill when the user is working on Georgia Tech PACE Phoenix — explicit mentions of "Phoenix", "pace-quota", "inferno", "embers", or A100/H100/H200/L40S/Blackwell on Phoenix, or asks about Phoenix-specific accounts/partitions/QOS. Always pair with slurm-core for portable Slurm guidance. Do not use this skill alone for generic Slurm questions, and do not use it for ICE — that's pace-ice.
+description: Georgia Tech PACE Phoenix specifics — "Phoenix", pace-quota, inferno, embers, A100/H100/H200/L40S GPUs, and Phoenix accounts, partitions, or QOS. Always pair with slurm-core for portable Slurm; not for ICE (that's pace-ice).
 ---
 
 # PACE Phoenix Overlay

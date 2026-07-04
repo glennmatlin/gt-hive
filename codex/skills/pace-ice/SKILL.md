@@ -1,6 +1,6 @@
 ---
 name: pace-ice
-description: Use this skill when the user is working on Georgia Tech PACE ICE — explicit mentions of "ICE", "login-ice", instructional/coursework workloads, grading workflows, or GT-hosted workshops. Always pair with slurm-core for portable Slurm guidance. Do not use this skill alone for generic Slurm questions, and do not use it for Phoenix — that's pace-phoenix.
+description: Georgia Tech PACE ICE specifics — "ICE", login-ice, instructional or coursework workloads, and grading workflows. Always pair with slurm-core for portable Slurm; not for Phoenix (that's pace-phoenix).
 ---
 
 # PACE ICE Overlay

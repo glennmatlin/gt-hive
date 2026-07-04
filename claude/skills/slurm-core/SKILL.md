@@ -1,6 +1,6 @@
 ---
 name: slurm-core
-description: Use this skill when the user needs portable Slurm guidance — writing or reviewing batch scripts, explaining sbatch/srun/salloc, converting loops into job arrays, adding dependencies, monitoring jobs, interpreting sacct/squeue output, debugging failed or pending jobs. Do not use this skill alone when the user names a specific cluster (e.g., Phoenix, ICE); pair it with the matching site overlay skill (pace-phoenix or pace-ice) for site-specific account, partition, QOS, filesystem, or module decisions.
+description: Portable Slurm guidance for batch scripts (sbatch/srun/salloc), job arrays, dependencies, sacct/squeue monitoring, and debugging pending or failed jobs. Pair with a site overlay (pace-phoenix or pace-ice) when a specific cluster is named; not for a named cluster alone.
 ---
 
 # Slurm Core
