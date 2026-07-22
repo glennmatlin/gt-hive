@@ -50,6 +50,25 @@ For reader-supplied values that are not site-secret (a job name, a script path),
 4. Separate portable Slurm ideas from site-local details. Portable goes in this skill; site-local goes in the overlay.
 5. When the user is debugging, start from evidence rather than speculation.
 
+## Remote Cluster Deployment
+
+- Treat local-to-cluster source transfer as a software release operation,
+  never as a routine job-submission step.
+- Prefer, in order: an existing verified remote deployment, an authorized
+  remote checkout of an exact Git revision, reusable parameterized launchers,
+  and one consolidated release transfer.
+- Treat a checkout as verified only when it is detached at the requested full
+  SHA, clean, and covered by a machine-readable receipt binding its origin,
+  path, revision, and tracked bootstrap or dependency identity.
+- Never create or upload one-off local wrappers, sbatch files, patches,
+  contracts, configurations, or content-addressed bundles for individual
+  jobs. Generate job-specific configuration on the cluster from code and
+  artifacts already present there.
+- Prepare complete Slurm dependency chains before unattended runs. Do not
+  insert user approval boundaries between stages using the same deployment.
+- If new source bytes truly must cross systems, consolidate all changes into
+  one tested release and request one exact approval at the phase boundary.
+
 ## Core patterns
 
 ### 1. Batch job skeleton

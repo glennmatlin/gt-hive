@@ -61,6 +61,13 @@ against those docs and cite the specific page used.
   (`-A gts-...`, `-q inferno`, `-C amd`, `--gres=gpu:H100:N`) come from this
   overlay; the surrounding Slurm scaffolding comes from `slurm-core`.
 
+## Working with PACE
+Use an existing verified PACE deployment and reusable launcher for routine
+jobs. Do not manufacture local per-job source bundles. Generate contracts
+and configuration on PACE when their inputs already exist there. Before job
+submission, use the configured exact-commit helper's read-only mode to verify
+the clean checkout and deployment receipt.
+
 ## Cluster facts
 
 ### CPU partitions and constraints
