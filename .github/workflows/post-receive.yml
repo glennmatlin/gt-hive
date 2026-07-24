@@ -1,0 +1,70 @@
+name: post-receive security scan
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run security policy check
+        id: scan
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/security_policy_check.py \
+            --profile public \
+            --policy-config config/data_policy.json \
+            --path . \
+            | tee scan.log
+          # $? after a pipe is tee's exit code, which is ~always 0 even when
+          # the scanner failed. PIPESTATUS[0] captures the scanner's real
+          # exit code so the Fail step below fires when it should.
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload scan log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-log
+          path: scan.log
+
+      - name: Fail the job if scan failed
+        if: steps.scan.outputs.exit != '0'
+        run: exit 1
+
+      - name: Open issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Post-receive scan failed on ${context.sha.slice(0, 7)}`;
+            const body = [
+              `A push to main tripped the security policy scan.`,
+              ``,
+              `**Commit:** ${context.sha}`,
+              `**Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              ``,
+              `Review the scan log artifact and revert the push if needed.`,
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['security', 'urgent'],
+            });

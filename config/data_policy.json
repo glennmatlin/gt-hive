@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "description": "Data-tier policy for non-destructive profile gating in gt-hive.",
+  "profiles": {
+    "internal": {
+      "deny_filename_patterns": [],
+      "allow_restricted_content": true
+    },
+    "public": {
+      "deny_filename_patterns": [
+        "^PACE - GT Login - .*\\.md$",
+        "^PACE_PHOENIX_RESOURCES\\.md$"
+      ],
+      "allow_restricted_content": false
+    }
+  },
+  "restricted_content_rules": [
+    {
+      "name": "gt-login-doc-marker",
+      "pattern": "(?i)PACE\\s*-\\s*GT\\s*Login"
+    },
+    {
+      "name": "pace-login-hostname",
+      "pattern": "(?i)login-[a-z0-9-]+\\.pace\\.gatech\\.edu"
+    },
+    {
+      "name": "ideas-storage-internal-ip",
+      "pattern": "\\b128\\.61\\.254\\.120\\b"
+    }
+  ],
+  "public_variant_sources": [
+    "claude/commands/pace-guide.md",
+    "skills/pace-phoenix/SKILL.md",
+    "skills/pace-phoenix/references/workflows.md",
+    "skills/pace-phoenix/references/phoenix-local-notes.md",
+    "skills/pace-phoenix/references/pace-docs-map.md",
+    "skills/pace-phoenix/references/doc-index.md",
+    "skills/pace-ice/SKILL.md",
+    "skills/pace-ice/references/workflows.md",
+    "skills/pace-ice/references/ice-local-notes.md",
+    "skills/pace-ice/references/pace-docs-map.md",
+    "skills/pace-ice/references/doc-index.md"
+  ],
+  "public_variant_replacements": [
+    {
+      "pattern": "(?i)PACE\\s*-\\s*GT\\s*Login\\b",
+      "replacement": "PACE - [GT-login-only]"
+    },
+    {
+      "pattern": "(?i)login-phoenix\\.pace\\.gatech\\.edu",
+      "replacement": "<gt-login-host-redacted>"
+    },
+    {
+      "pattern": "(?i)login-ice\\.pace\\.gatech\\.edu",
+      "replacement": "<gt-login-host-redacted>"
+    },
+    {
+      "pattern": "(?i)login-hive\\.pace\\.gatech\\.edu",
+      "replacement": "<gt-login-host-redacted>"
+    },
+    {
+      "pattern": "\\b128\\.61\\.254\\.120\\b",
+      "replacement": "<internal-ip-redacted>"
+    }
+  ]
+}

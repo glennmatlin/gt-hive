@@ -1,0 +1,17 @@
+{
+  "description": "Auto-update gt-hive marketplace on session start",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/check-update.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

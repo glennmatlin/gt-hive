@@ -1,0 +1,4 @@
+interface:
+  display_name: "GT PACE HPC Navigator"
+  short_description: "Navigate GT PACE docs and HPC workflows"
+  default_prompt: "Use $pace-phoenix to help me run a cost-aware job on PACE Phoenix and cite local docs."

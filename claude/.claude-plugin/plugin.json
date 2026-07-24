@@ -1,0 +1,8 @@
+{
+  "name": "gt-hive-pace",
+  "description": "PACE HPC plugin in the gt-hive marketplace. Layered skills for Georgia Tech PACE: slurm-core (portable Slurm), pace-phoenix (Phoenix overlay), pace-ice (ICE overlay). Job scripting, storage navigation, GPU resource selection, troubleshooting, and templates for ML training and batch computing workflows on Georgia Tech Phoenix and ICE clusters.",
+  "version": "0.3.0",
+  "license": "MIT",
+  "repository": "https://github.com/glennmatlin/gt-hive",
+  "keywords": ["hpc", "slurm", "pace", "georgia-tech", "phoenix", "ice"]
+}
